@@ -1,0 +1,7 @@
+server/venv/
+__pycache__/
+.ipynb_checkpoints/
+server/models/similarity.pkl
+*.pyc
+.DS_Store
+.env
