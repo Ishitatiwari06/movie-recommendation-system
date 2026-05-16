@@ -1,6 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import pickle
+import os
+from dotenv import load_dotenv
+import requests
+
+load_dotenv()
+
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
 app = FastAPI()
 
@@ -8,6 +15,8 @@ app = FastAPI()
 def home():
     return {"message": "Movie Recommendation API"}
 
+# CORS -cross-origin resource sharing
+# allows frontend to access backend resources from different origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -38,19 +47,46 @@ def recommend(movie_name: str):
     distances = similarity[movie_index]
 
     movies_list = sorted(
-        list(enumerate(distances)),
+        list(enumerate(distances)), #enumerate() - returns index and value as a tuple
         reverse=True,
-        key=lambda x: x[1]
+        key=lambda x: x[1] #sort by similarity score
     )[1:6]
 
     recommendations = []
 
     for i in movies_list:
-        recommendations.append(
-            movies.iloc[i[0]].title
-        )
+        recommendations.append({
+            "title": movies.iloc[i[0]].title,
+            "poster": fetch_poster(
+                movies.iloc[i[0]].title
+            )
+        })
 
     return {
         "success": True,
         "recommendations": recommendations
     }
+
+def fetch_poster(movie_title):
+
+    if not TMDB_API_KEY:
+        return None
+
+    url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={movie_title.split('(')[0].strip()}"
+
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+    except requests.RequestException:
+        return None
+    except ValueError:
+        return None
+
+    if data.get('results'):
+
+        poster_path = data['results'][0]['poster_path']
+
+        return f"https://image.tmdb.org/t/p/w500{poster_path}"
+
+    return None
