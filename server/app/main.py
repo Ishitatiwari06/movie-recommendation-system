@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import pickle
 import os
 from dotenv import load_dotenv
-import requests
+import requests #to call TMDB API
 
 load_dotenv()
 
@@ -75,7 +75,7 @@ def fetch_poster(movie_title):
     url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={movie_title.split('(')[0].strip()}"
 
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=10) #sends req
         response.raise_for_status()
         data = response.json()
     except requests.RequestException:
