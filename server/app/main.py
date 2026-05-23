@@ -4,6 +4,7 @@ import pickle
 import os
 from dotenv import load_dotenv
 import requests #to call TMDB API
+from app.collaborative import recommend_movies
 
 load_dotenv()
 
@@ -90,3 +91,45 @@ def fetch_poster(movie_title):
         return f"https://image.tmdb.org/t/p/w500{poster_path}"
 
     return None
+
+@app.get("/recommend/user/{user_id}")
+def recommend_user(user_id: int):
+    try:
+        recommendations = recommend_movies(user_id)
+        return {
+            "success": True,
+            "recommendations": recommendations
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+def hybrid_recommend(movie_name, user_id):
+
+    content_recommendations = recommend(movie_name)
+
+    collaborative_recommendations = recommend_movies(user_id)
+
+    combined = list(
+        set(
+            content_recommendations +
+            collaborative_recommendations
+        )
+    )
+
+    return combined[:10]
+
+@app.get("/recommend/hybrid/{user_id}/{movie_name}")
+def hybrid(user_id: int, movie_name: str):
+
+    recommendations = hybrid_recommend(
+        movie_name,
+        user_id
+    )
+
+    return {
+        "success": True,
+        "recommendations": recommendations
+    }
