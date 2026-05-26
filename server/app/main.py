@@ -5,6 +5,13 @@ import os
 from dotenv import load_dotenv
 import requests #to call TMDB API
 from app.collaborative import recommend_movies
+from app.database import engine
+from app.models import Base
+from app.database import SessionLocal
+from app.models import User
+from app.auth import hash_password
+from app.auth import verify_password, create_access_token
+from app.models import Watchlist
 
 load_dotenv()
 
@@ -133,3 +140,85 @@ def hybrid(user_id: int, movie_name: str):
         "success": True,
         "recommendations": recommendations
     }
+
+Base.metadata.create_all(bind=engine)
+
+@app.post("/signup")
+def signup(username: str, password: str):
+
+    db = SessionLocal()
+
+    user = User(
+        username=username,
+        password=hash_password(password)
+    )
+
+    db.add(user)
+
+    db.commit()
+
+    return {
+        "success": True
+    }
+
+@app.post("/login")
+def login(username: str, password: str):
+
+    db = SessionLocal()
+
+    user = db.query(User).filter(
+        User.username == username
+    ).first()
+
+    if not user:
+        return {
+            "success": False,
+            "message": "User not found"
+        }
+
+    if not verify_password(
+        password,
+        user.password
+    ):
+        return {
+            "success": False,
+            "message": "Wrong password"
+        }
+
+    token = create_access_token(
+        {"sub": username}
+    )
+
+    return {
+        "success": True,
+        "token": token
+    }
+
+@app.post("/watchlist")
+def add_watchlist(user_id: int, movie_title: str):
+
+    db = SessionLocal()
+
+    item = Watchlist(
+        user_id=user_id,
+        movie_title=movie_title
+    )
+
+    db.add(item)
+
+    db.commit()
+
+    return {
+        "success": True
+    }
+
+@app.get("/watchlist/{user_id}")
+def get_watchlist(user_id: int):
+
+    db = SessionLocal()
+
+    items = db.query(Watchlist).filter(
+        Watchlist.user_id == user_id
+    ).all()
+
+    return items
