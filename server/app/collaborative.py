@@ -29,7 +29,7 @@ def recommend_movies(user_id, num_recommendations=5):
         ratings['userId'] == user_id
     ]['movieId'].values
 
-    recommended_movies = {}
+    recommended_movies = {} #movie_id → recommendation score
 
     for similar_user, similarity_score in similar_users.items():
 
