@@ -10,7 +10,7 @@ pwd_context = CryptContext(
     schemes=["bcrypt"],
     deprecated="auto"
 )
-
+# header,payload,signature -jwt token
 def hash_password(password):
 
     return pwd_context.hash(password)
@@ -23,7 +23,7 @@ def create_access_token(data):
 
     to_encode = data.copy()
 
-    expire = datetime.utcnow() + timedelta(hours=2)
+    expire = datetime.now() + timedelta(hours=2)
 
     to_encode.update({"exp": expire})
 

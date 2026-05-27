@@ -140,7 +140,7 @@ def hybrid(user_id: int, movie_name: str):
         "success": True,
         "recommendations": recommendations
     }
-
+# it will create all the tables linked to base
 Base.metadata.create_all(bind=engine)
 
 @app.post("/signup")
