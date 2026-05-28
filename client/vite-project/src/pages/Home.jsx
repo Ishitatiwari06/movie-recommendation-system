@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import SearchBar from "../components/SearchBar";
 import MovieCard from "../components/MovieCard";
@@ -7,6 +9,16 @@ function Home() {
 
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        if (!localStorage.getItem("token")) {
+            navigate("/login");
+        }
+
+    }, []);
 
     const fetchRecommendations = async (movie) => {
 

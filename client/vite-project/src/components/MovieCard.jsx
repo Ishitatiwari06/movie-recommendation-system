@@ -24,4 +24,31 @@ function MovieCard({ movie }) {
     );
 }
 
+const addToWatchlist = async () => {
+
+    try {
+
+        await API.post(
+            "/watchlist",
+            null,
+            {
+                params: {
+                    user_id: 1,
+                    movie_title: movie.title
+                }
+            }
+        );
+
+        alert("Added to watchlist");
+
+    } catch (error) {
+
+        console.log(error);
+    }
+};
+
+<button onClick={addToWatchlist}>
+    Add to Watchlist
+</button>
+
 export default MovieCard;
