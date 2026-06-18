@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
 function Watchlist() {
 
     const [movies, setMovies] = useState([]);
-
+    const navigate=useNavigate();
+// Runs code when component loads. (mounting)
     useEffect(() => {
-
+        if (!localStorage.getItem("token")) {
+            navigate("/login");
+            return;
+        }
         fetchWatchlist();
 
     }, []);
@@ -34,12 +39,18 @@ function Watchlist() {
             <h1>My Watchlist</h1>
 
             {
-                movies.map((movie, index) => (
+                
+                movies.length === 0 ? (
+                    <p>No movies in watchlist.</p>
+                ) : (
+                    movies.map((movie, index) => (
 
-                    <p key={index}>
-                        {movie.movie_title}
-                    </p>
-                ))
+                        <p key={index}>
+                            {movie.movie_title}
+                        </p>
+                    ))
+                )
+
             }
 
         </div>

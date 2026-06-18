@@ -21,12 +21,20 @@ function Login() {
                     }
                 }
             );
-
-            localStorage.setItem(
+            // why? - Stores JWT token so user remains logged in after refresh.
+            localStorage.setItem( 
                 "token",
                 res.data.token
             );
+            localStorage.setItem(
+                "userId",
+                res.data.user_id
+            );
 
+            localStorage.setItem(
+                "username",
+                res.data.username
+            );
             alert("Login successful");
 
         } catch (error) {
