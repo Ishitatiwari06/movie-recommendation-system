@@ -6,6 +6,8 @@ function Watchlist() {
 
     const [movies, setMovies] = useState([]);
     const navigate=useNavigate();
+    const userId=localStorage.getItem("userId");
+
 // Runs code when component loads. (mounting)
     useEffect(() => {
         if (!localStorage.getItem("token")) {
@@ -21,7 +23,7 @@ function Watchlist() {
         try {
 
             const res = await API.get(
-                "/watchlist/1"
+                `/watchlist/${userId}`
             );
 
             setMovies(res.data);

@@ -1,10 +1,11 @@
 import { use } from "react";
 import "../styles/MovieCard.css";
+import API from "../services/api";
 
 function MovieCard({ movie }) {
     const userId = localStorage.getItem("userId");
     const addToWatchlist = async () => {
-
+        
         try {
 
             await API.post(

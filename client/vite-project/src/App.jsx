@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Watchlist from "./pages/Watchlist";
 import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -34,7 +35,7 @@ function App() {
                 </ProtectedRoute>
             }
         />
-        
+
       </Routes>
 
     </BrowserRouter>
