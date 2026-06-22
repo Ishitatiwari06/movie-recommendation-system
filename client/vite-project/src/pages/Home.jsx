@@ -9,7 +9,7 @@ function Home() {
 
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    const [message,setMessage]= useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,7 +27,12 @@ function Home() {
         setLoading(true);
 
         const res = await API.get(`/recommend/${movie}`);
-
+        if (!res.data.success) {
+            setMessage("No matching results found");
+            setMovies([]);
+            return;
+        }
+        setMessage("");
         setMovies(res.data.recommendations);
 
     } catch (error) {
@@ -44,17 +49,15 @@ function Home() {
         <div>
 
             <SearchBar onSearch={fetchRecommendations} />
-            {
-            loading && <p>Loading...</p>
-            }
-            {
-                movies.map((movie, index) => (
+            {loading && <p>Loading...</p>}
+            {message && <p>{message}</p>}
+           
+                {movies.map((movie, index) => (
                     <MovieCard
                         key={index}
                         movie={movie}
                     />
-                ))
-            }
+                ))}
 
         </div>
     );
