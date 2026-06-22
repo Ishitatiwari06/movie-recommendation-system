@@ -4,7 +4,7 @@ A full-stack Movie Recommendation System built using React, FastAPI, and Machine
 
 ## 🚀 Live Demo
 
-- Frontend: (https://movie-recommendation-system-j6ig-19sv1i28o.vercel.app/login)
+- Frontend: https://movie-recommendation-system-j6ig-19sv1i28o.vercel.app/login
 - Backend API: (https://movie-recommendation-system-urau.onrender.com)
 
 ## Features
