@@ -17,8 +17,13 @@ function Signup() {
             return;
         }
         try {
+<<<<<<< HEAD
             setLoading(true);
             await API.post(
+=======
+
+            await API.post( //(url,req body,params)
+>>>>>>> 8c36bdb430514b78d5c5e9ecc4edfd2a03895d01
                 "/signup",
                 null,
                 { params: { username, password } }

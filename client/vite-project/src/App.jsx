@@ -1,6 +1,6 @@
 import {
-  BrowserRouter,
-  Routes,
+  BrowserRouter, //main router for application
+  Routes, //contains hold of all routes
   Route
 } from "react-router-dom";
 
@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Watchlist from "./pages/Watchlist";
 import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -25,6 +26,15 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/watchlist" element={<Watchlist />} />
+
+        <Route
+            path="/watchlist"
+            element={
+                <ProtectedRoute>
+                    <Watchlist />
+                </ProtectedRoute>
+            }
+        />
 
       </Routes>
 

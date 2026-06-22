@@ -191,7 +191,9 @@ def login(username: str, password: str):
 
     return {
         "success": True,
-        "token": token
+        "token": token,
+        "user_id": user.id,
+        "username": user.username
     }
 
 @app.post("/watchlist")
