@@ -9,56 +9,53 @@ function Home() {
 
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [message,setMessage]= useState("");
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-
         if (!localStorage.getItem("token")) {
             navigate("/login");
         }
-
     }, []);
 
     const fetchRecommendations = async (movie) => {
-
         try {
+            setLoading(true);
 
-        setLoading(true);
+            const res = await API.get(`/recommend/${movie}`);
+            if (!res.data.success) {
+                setMessage("No matching results found");
+                setMovies([]);
+                return;
+            }
+            setMessage("");
+            setMovies(res.data.recommendations || []);
 
-        const res = await API.get(`/recommend/${movie}`);
-        if (!res.data.success) {
-            setMessage("No matching results found");
-            setMovies([]);
-            return;
+        } catch (error) {
+            console.error(error);
+            setMessage("Something went wrong. Try again.");
+        } finally {
+            setLoading(false);
         }
-        setMessage("");
-        setMovies(res.data.recommendations);
-
-    } catch (error) {
-
-        console.log(error);
-
-    } finally {
-
-        setLoading(false);
-    }
     };
 
     return (
-        <div>
+        <div className="container">
+            <h1>Movie Recommendations</h1>
 
             <SearchBar onSearch={fetchRecommendations} />
-            {loading && <p>Loading...</p>}
-            {message && <p>{message}</p>}
-           
+
+            {loading && <p className="muted">Loading...</p>}
+            {message && <p className="muted">{message}</p>}
+
+            <div className="movies-grid">
                 {movies.map((movie, index) => (
                     <MovieCard
                         key={index}
                         movie={movie}
                     />
                 ))}
-
+            </div>
         </div>
     );
 }

@@ -109,3 +109,136 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Layout and component helpers */
+.container {
+  padding: 24px;
+  max-width: 1126px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.movies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.muted {
+  color: var(--text);
+  margin-top: 12px;
+}
+
+.search-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.search-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  width: 320px;
+  max-width: 70%;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.nav-left {
+  justify-content: flex-start;
+}
+
+.nav-center {
+  justify-content: center;
+}
+
+.nav-right {
+  justify-content: flex-end;
+}
+
+.navbar a {
+  margin: 0 8px;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.welcome {
+  color: var(--text-h);
+  font-weight: 500;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  margin-left: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 8px 10px;
+  margin-left: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* global primary button */
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.auth-card {
+  max-width: 420px;
+  margin: 36px auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  background: var(--bg);
+  text-align: center;
+}
+
+.auth-card h2 {
+  margin: 0 0 12px 0;
+  color: var(--text-h);
+}
+
+.form-field { margin-top: 8px; }
+
+@media (max-width: 600px) {
+  .search-input { width: 60%; }
+  .movie-card { width: 46%; }
+}

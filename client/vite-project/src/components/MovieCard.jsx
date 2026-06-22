@@ -1,54 +1,47 @@
 import "../styles/MovieCard.css";
+import API from "../services/api";
 
 function MovieCard({ movie }) {
 
+    const addToWatchlist = async () => {
+        try {
+            await API.post(
+                "/watchlist",
+                null,
+                {
+                    params: {
+                        user_id: 1,
+                        movie_title: movie.title
+                    }
+                }
+            );
+
+            alert("Added to watchlist");
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
-
         <div className="movie-card">
-
-            {
-                movie.poster ? (
+            <div className="poster-wrap">
+                {movie.poster ? (
                     <img
                         src={movie.poster}
                         alt={movie.title}
-                        width="200"
                     />
                 ) : (
-                    <p>No Poster</p>
-                )
-            }
+                    <div className="no-poster">No Poster</div>
+                )}
+            </div>
 
-            <h3>{movie.title}</h3>
-
+            <div className="movie-info">
+                <h3>{movie.title}</h3>
+                <button className="btn" onClick={addToWatchlist}>Add</button>
+            </div>
         </div>
     );
 }
-
-const addToWatchlist = async () => {
-
-    try {
-
-        await API.post(
-            "/watchlist",
-            null,
-            {
-                params: {
-                    user_id: 1,
-                    movie_title: movie.title
-                }
-            }
-        );
-
-        alert("Added to watchlist");
-
-    } catch (error) {
-
-        console.log(error);
-    }
-};
-
-<button onClick={addToWatchlist}>
-    Add to Watchlist
-</button>
 
 export default MovieCard;

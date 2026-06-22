@@ -1,66 +1,76 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
 function Login() {
-
     const [username, setUsername] = useState("");
-
     const [password, setPassword] = useState("");
-
-    const handleLogin = async () => {
-
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
+    const handleLogin = async (e) => {
+        if (e) e.preventDefault();
+        setError("");
+        if (!username || !password) {
+            setError("Please enter username and password.");
+            return;
+        }
         try {
-
+            setLoading(true);
             const res = await API.post(
                 "/login",
                 null,
                 {
-                    params: {
-                        username,
-                        password
-                    }
+                    params: { username, password }
                 }
             );
 
-            localStorage.setItem(
-                "token",
-                res.data.token
-            );
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("username", username);
+            navigate("/");
 
-            alert("Login successful");
-
-        } catch (error) {
-
-            console.log(error);
+        } catch (err) {
+            console.error(err);
+            setError("Login failed. Check credentials.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
+        <div className="container">
+            <div className="auth-card">
+                <h2>Welcome back</h2>
+                <form onSubmit={handleLogin}>
+                    <div className="form-field">
+                        <input
+                            className="search-input"
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
 
-        <div>
+                    <div className="form-field">
+                        <input
+                            className="search-input"
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
 
-            <h1>Login</h1>
+                    {error && <p className="muted">{error}</p>}
 
-            <input
-                type="text"
-                placeholder="Username"
-                onChange={(e) =>
-                    setUsername(e.target.value)
-                }
-            />
-
-            <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) =>
-                    setPassword(e.target.value)
-                }
-            />
-
-            <button onClick={handleLogin}>
-                Login
-            </button>
-
+                    <div style={{ marginTop: 12 }}>
+                        <button className="btn" disabled={loading}>
+                            {loading ? "Signing in..." : "Login"}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
