@@ -153,8 +153,14 @@ code {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
+  padding: 16px 24px;
   border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #111827, #0f172a);
+  backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 
 .nav-left,
@@ -171,16 +177,46 @@ code {
 
 .nav-center {
   justify-content: center;
+  padding: 0 12px;
 }
 
 .nav-right {
   justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .navbar a {
-  margin: 0 8px;
-  color: var(--text-h);
+  color: #f8fafc;
   text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.nav-brand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.welcome-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .welcome {
@@ -198,17 +234,25 @@ code {
 }
 
 .btn-danger {
-  background: #dc2626;
+  background: linear-gradient(180deg, #ef4444, #dc2626);
   color: #fff;
   border: none;
-  padding: 8px 10px;
-  margin-left: 8px;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
   cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 8px 18px rgba(220, 38, 38, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .btn-danger:hover {
-  background: #b91c1c;
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(220, 38, 38, 0.28);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
 }
 
 /* global primary button */

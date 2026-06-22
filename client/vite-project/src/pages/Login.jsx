@@ -52,10 +52,7 @@ function Login() {
             alert("Login successful");
             window.location.reload();
 
-        } catch (error) {
-
-            console.log(error);
-        }
+        } 
     };
 
     return (
