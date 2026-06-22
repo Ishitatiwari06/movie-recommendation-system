@@ -11,7 +11,7 @@ function Signup() {
 
         try {
 
-            await API.post(
+            await API.post( //(url,req body,params)
                 "/signup",
                 null,
                 {
