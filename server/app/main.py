@@ -33,8 +33,51 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-movies = pickle.load(open("models/movie_list.pkl", "rb"))
-similarity = pickle.load(open("models/similarity.pkl", "rb"))
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+movies = pd.read_csv(BASE_DIR / "data" / "movies.csv")
+tags = pd.read_csv(BASE_DIR / "data" / "tags.csv")
+
+movie_tags = (
+    tags.groupby("movieId")["tag"]
+    .apply(lambda x: " ".join(x.astype(str)))
+    .reset_index()
+)
+
+movies = movies.merge(
+    movie_tags,
+    on="movieId",
+    how="left"
+)
+
+movies["tag"] = movies["tag"].fillna("")
+
+movies["genres"] = movies["genres"].str.replace(
+    "|",
+    " ",
+    regex=False
+)
+
+movies["features"] = (
+    movies["genres"] + " " + movies["tag"]
+)
+
+cv = CountVectorizer(
+    max_features=5000,
+    stop_words="english"
+)
+
+vectors = cv.fit_transform(
+    movies["features"]
+).toarray()
+
+similarity = cosine_similarity(vectors)
 
 @app.get("/recommend/{movie_name}")
 def recommend(movie_name: str):
