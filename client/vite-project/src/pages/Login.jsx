@@ -25,17 +25,6 @@ function Login() {
                 }
             );
 
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("username", username);
-            navigate("/");
-
-        } catch (err) {
-            console.error(err);
-            setError("Login failed. Check credentials.");
-        } finally {
-            setLoading(false);
-            
-            // why? - Stores JWT token so user remains logged in after refresh.
             localStorage.setItem( 
                 "token",
                 res.data.token
@@ -50,7 +39,13 @@ function Login() {
                 res.data.username
             );
             alert("Login successful");
-            window.location.reload();
+            navigate("/");
+
+        } catch (err) {
+            console.error(err);
+            setError("Login failed. Check credentials.");
+        } finally {
+            setLoading(false);
 
         } 
     };
