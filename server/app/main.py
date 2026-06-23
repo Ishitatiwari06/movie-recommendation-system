@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import pickle
 import os
 from dotenv import load_dotenv
 import requests #to call TMDB API
@@ -80,16 +79,14 @@ cv = CountVectorizer(
 
 vectors = cv.fit_transform(
     movies["features"]
-).toarray()
-
-similarity = cosine_similarity(vectors)
+)
 
 @app.get("/recommend/{movie_name}")
 def recommend(movie_name: str):
 
     matched_movies = movies[
     movies['title'].str.contains(movie_name, case=False, na=False)
-]
+    ]
 
     if matched_movies.empty:
         return {
@@ -100,12 +97,15 @@ def recommend(movie_name: str):
 
     movie_index = matched_movies.index[0]
 
-    distances = similarity[movie_index]
+    scores = cosine_similarity(
+        vectors[movie_index],
+        vectors
+    ).flatten()
 
     movies_list = sorted(
-        list(enumerate(distances)), #enumerate() - returns index and value as a tuple
+        list(enumerate(scores)),
         reverse=True,
-        key=lambda x: x[1] #sort by similarity score
+        key=lambda x: x[1]
     )[1:6]
 
     recommendations = []
