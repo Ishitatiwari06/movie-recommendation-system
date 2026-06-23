@@ -41,8 +41,13 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-movies = pd.read_csv(BASE_DIR / "data" / "movies.csv")
-tags = pd.read_csv(BASE_DIR / "data" / "tags.csv")
+movies = pd.read_csv(
+    BASE_DIR / "data" / "ml-latest-small" / "movies.csv"
+)
+
+tags = pd.read_csv(
+    BASE_DIR / "data" / "ml-latest-small" / "tags.csv"
+)
 
 movie_tags = (
     tags.groupby("movieId")["tag"]
