@@ -1,4 +1,4 @@
-import { use } from "react";
+
 import "../styles/MovieCard.css";
 import API from "../services/api";
 
@@ -27,31 +27,26 @@ function MovieCard({ movie }) {
         }
     };
     return (
-        <div className="movie-card">
-            <div className="poster-wrap">
-                {movie.poster ? (
-                    <img
-                        src={movie.poster}
-                        alt={movie.title}
-                    />
-                ) : (
-                    <div className="no-poster">No Poster</div>
-                )}
-            </div>
-                    <p>No Poster</p>
-                )
+    <div className="movie-card">
+        <div className="poster-wrap">
+            {movie.poster ? (
+                <img
+                    src={movie.poster}
+                    alt={movie.title}
+                />
+            ) : (
+                <div className="no-poster">No Poster</div>
+            )}
+        </div>
 
+        <div className="movie-info">
             <h3>{movie.title}</h3>
-            <button onClick={addToWatchlist}>
+            <button className="btn" onClick={addToWatchlist}>
                 Add to Watchlist
             </button>
-
-            <div className="movie-info">
-                <h3>{movie.title}</h3>
-                <button className="btn" onClick={addToWatchlist}>Add</button>
-            </div>
         </div>
-    );
+    </div>
+);
 }
 
 export default MovieCard;

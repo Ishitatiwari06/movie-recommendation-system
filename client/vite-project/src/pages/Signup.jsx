@@ -68,6 +68,18 @@ function Signup() {
                         </button>
                     </div>
                 </form>
+                <div style={{ marginTop: "15px", textAlign: "center" }}>
+                    <p>
+                        Already a user?{" "}
+                        <button
+                            type="button"
+                            className="link-btn"
+                            onClick={() => navigate("/login")}
+                        >
+                            Login
+                        </button>
+                    </p>
+                </div>
             </div>
         </div>
     );

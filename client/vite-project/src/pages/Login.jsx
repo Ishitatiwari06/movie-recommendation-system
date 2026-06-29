@@ -18,28 +18,35 @@ function Login() {
         try {
             setLoading(true);
             const res = await API.post(
-                "/login",
-                null,
-                {
-                    params: { username, password }
-                }
-            );
+    "/login",
+    null,
+    {
+        params: { username, password }
+    }
+);
 
-            localStorage.setItem( 
-                "token",
-                res.data.token
-            );
-            localStorage.setItem(
-                "userId",
-                res.data.user_id
-            );
+    if (!res.data.success) {
+        setError(res.data.message);
+        return;
+    }
 
-            localStorage.setItem(
-                "username",
-                res.data.username
-            );
-            alert("Login successful");
-            navigate("/");
+    localStorage.setItem(
+        "token",
+        res.data.token
+    );
+
+    localStorage.setItem(
+        "userId",
+        res.data.user_id
+    );
+
+    localStorage.setItem(
+        "username",
+        res.data.username
+    );
+
+    alert("Login successful");
+    navigate("/");
 
         } catch (err) {
             console.error(err);
@@ -83,6 +90,18 @@ function Login() {
                         </button>
                     </div>
                 </form>
+                <div style={{ marginTop: "15px", textAlign: "center" }}>
+                    <p>
+                        New user?{" "}
+                        <button
+                            type="button"
+                            className="link-btn"
+                            onClick={() => navigate("/signup")}
+                        >
+                            Sign Up
+                        </button>
+                    </p>
+                </div>
             </div>
         </div>
     );
