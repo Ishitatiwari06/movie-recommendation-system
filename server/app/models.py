@@ -9,10 +9,9 @@ class User(Base):
 
     username = Column(String, unique=True)
 
-    password = Column(String)\
+    password = Column(String)
   
 class Watchlist(Base):
-
     __tablename__ = "watchlists"
 
     id = Column(Integer, primary_key=True, index=True)

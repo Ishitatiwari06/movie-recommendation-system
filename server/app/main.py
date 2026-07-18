@@ -17,7 +17,11 @@ load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
 app = FastAPI()
-
+origins=[
+    "http://localhost:3000",               
+    "http://localhost:5173",                  
+    "https://movie-recommendation-system-j6ig-19sv1i28o.vercel.app/"
+]
 @app.get("/")
 def home():
     return {"message": "Movie Recommendation API"}
@@ -26,7 +30,7 @@ def home():
 # allows frontend to access backend resources from different origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
